@@ -7,7 +7,7 @@ type Token struct {
   Literal string
 }
 
-constant {
+const(
     ILLEGAL = "ILLEGAL"
     EOF = "EOF"
 
@@ -33,4 +33,4 @@ constant {
     // Keywords
     LET = "LET"
     FUNCTION = "FUNCTION"
-}
+)
