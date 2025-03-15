@@ -1,12 +1,14 @@
 package lexer
 
-import "github.com/NeonGreenLemon/monkey-interpreter-go/token"
+import (
+	"github.com/NeonGreenLemon/monkey-interpreter-go/token"
+)
 
 type Lexer struct {
-	input string // the actual input
-	position int // current position
-	readPosition int // the position after the current position
-	ch byte // byte representation of the current character
+	input        string // the actual input
+	position     int    // current position
+	readPosition int    // the position after the current position
+	ch           byte   // byte representation of the current character
 }
 
 func New(input string) *Lexer {
@@ -27,10 +29,49 @@ func (l *Lexer) readChar() {
 }
 
 func (l *Lexer) NextToken() token.Token {
-	token, err := token.GetToken(l.ch)
-	if err != nil {
-	  panic(err)
+	var tok token.Token
+
+	l.skipWhitespace()
+
+	if isLetter(l.ch) {
+		tok = token.GetTokenFromString(l.readString())
+	} else if isDigit(l.ch) {
+		tok = token.GetTokenFromDigit(l.readDigit())
+	} else {
+		tok = token.GetToken(l.ch)
+		// go to next character
+		l.readChar()
 	}
-	l.readChar()
-	return token
+
+	return tok
+}
+
+func (l *Lexer) skipWhitespace() {
+	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+		l.readChar()
+	}
+}
+
+func (l *Lexer) readDigit() string {
+	position := l.position
+	for isDigit(l.ch) {
+		l.readChar()
+	}
+	return l.input[position:l.position]
+}
+
+func isDigit(ch byte) bool {
+	return '0' <= ch && ch <= '9'
+}
+
+func (l *Lexer) readString() string {
+	position := l.position
+	for isLetter(l.ch) {
+		l.readChar()
+	}
+	return l.input[position:l.position]
+}
+
+func isLetter(ch byte) bool {
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
 }
