@@ -53,6 +53,23 @@ func GetToken(ch byte) Token {
 	return tok
 }
 
+func GetTwoCharToken(ch1 byte, ch2 byte) Token {
+	str := string(ch1) + string(ch2)
+	var tok Token
+
+	tok.Literal = str
+	tok.Type = getTwoCharTokenType(str)
+
+	return tok
+}
+
+func getTwoCharTokenType(str string) TokenType {
+	if tok, ok := twoChar[str]; ok {
+		return tok
+	}
+	panic("Error: Can not identify TwoChar TokenType!!!" + str)
+}
+
 func newToken(tokenType TokenType, ch byte) Token {
 	return Token{Type: tokenType, Literal: string(ch)}
 }
@@ -90,6 +107,11 @@ var keywords = map[string]TokenType{
 	"if":     IF,
 	"else":   ELSE,
 	"return": RETURN,
+}
+
+var twoChar = map[string]TokenType{
+	"==": EQUAL,
+	"!=": NOT_EQUAL,
 }
 
 const (
@@ -130,4 +152,7 @@ const (
 	IF       = "IF"
 	ELSE     = "ELSE"
 	RETURN   = "RETURN"
+
+	EQUAL     = "=="
+	NOT_EQUAL = "!="
 )

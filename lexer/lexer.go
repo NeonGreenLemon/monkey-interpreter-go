@@ -28,6 +28,14 @@ func (l *Lexer) readChar() {
 	l.readPosition += 1
 }
 
+func (l *Lexer) peekChar() byte {
+	if l.readPosition >= len(l.input) {
+		return 0
+	} else {
+		return l.input[l.readPosition]
+	}
+}
+
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
@@ -37,6 +45,11 @@ func (l *Lexer) NextToken() token.Token {
 		tok = token.GetTokenFromString(l.readString())
 	} else if isDigit(l.ch) {
 		tok = token.GetTokenFromDigit(l.readDigit())
+	} else if isTwoChar(l) {
+		ch := l.ch
+		l.readChar()
+		tok = token.GetTwoCharToken(ch, l.ch)
+		l.readChar()
 	} else {
 		tok = token.GetToken(l.ch)
 		// go to next character
@@ -50,6 +63,20 @@ func (l *Lexer) skipWhitespace() {
 	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
 		l.readChar()
 	}
+}
+
+func isTwoChar(l *Lexer) bool {
+	switch l.ch {
+	case '=':
+		if l.peekChar() == '=' {
+			return true
+		}
+	case '!':
+		if l.peekChar() == '=' {
+			return true
+		}
+	}
+	return false
 }
 
 func (l *Lexer) readDigit() string {
