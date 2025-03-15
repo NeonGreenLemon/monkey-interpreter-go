@@ -17,6 +17,12 @@ let add = fn(x, y) {
 let result = add(five, ten);
 !-/*5;
 5 < 10 > 5;
+
+if (5 < 10) {
+  return true;
+} else {
+  return false;
+}
 `
 
 	tests := []struct {
@@ -73,6 +79,28 @@ let result = add(five, ten);
 		{token.GREATER, ">"},
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
+
+		{token.IF, "if"},
+		{token.LEFT_PARENT, "("},
+		{token.INT, "5"},
+		{token.LESS, "<"},
+		{token.INT, "10"},
+		{token.RIGHT_PARENT, ")"},
+		{token.LEFT_BRACE, "{"},
+
+		{token.RETURN, "return"},
+		{token.TRUE, "true"},
+		{token.SEMICOLON, ";"},
+
+		{token.RIGHT_BRACE, "}"},
+		{token.ELSE, "else"},
+		{token.LEFT_BRACE, "{"},
+
+		{token.RETURN, "return"},
+		{token.FALSE, "false"},
+		{token.SEMICOLON, ";"},
+
+		{token.RIGHT_BRACE, "}"},
 
 		{token.EOF, ""},
 	}

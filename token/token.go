@@ -83,8 +83,13 @@ func GetTokenFromDigit(str string) Token {
 }
 
 var keywords = map[string]TokenType{
-	"fn":  FUNCTION,
-	"let": LET,
+	"fn":     FUNCTION,
+	"let":    LET,
+	"true":   TRUE,
+	"false":  FALSE,
+	"if":     IF,
+	"else":   ELSE,
+	"return": RETURN,
 }
 
 const (
@@ -120,4 +125,9 @@ const (
 	// Keywords
 	LET      = "LET"
 	FUNCTION = "FUNCTION"
+	TRUE     = "TRUE"
+	FALSE    = "FALSE"
+	IF       = "IF"
+	ELSE     = "ELSE"
+	RETURN   = "RETURN"
 )
