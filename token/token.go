@@ -23,6 +23,18 @@ func GetToken(ch byte) Token {
 		tok = newToken(COMMA, ch)
 	case '+':
 		tok = newToken(PLUS, ch)
+	case '-':
+		tok = newToken(MINUS, ch)
+	case '*':
+		tok = newToken(ASTERISK, ch)
+	case '/':
+		tok = newToken(SLASH, ch)
+	case '!':
+		tok = newToken(BANG, ch)
+	case '<':
+		tok = newToken(LESS, ch)
+	case '>':
+		tok = newToken(GREATER, ch)
 	case '{':
 		tok = newToken(LEFT_BRACE, ch)
 	case '}':
@@ -84,8 +96,15 @@ const (
 	INT        = "INT"
 
 	// Operators
-	ASSIGN = "="
-	PLUS   = "+"
+	ASSIGN   = "="
+	PLUS     = "+"
+	MINUS    = "-"
+	BANG     = "!"
+	ASTERISK = "*"
+	SLASH    = "/"
+
+	LESS    = "<"
+	GREATER = ">"
 
 	// Delimiters
 	LEFT_PARENT   = "("
